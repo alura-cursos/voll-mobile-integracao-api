@@ -1,6 +1,5 @@
-import { VStack, Image, Text, Box, Link, Checkbox, ScrollView } from 'native-base'
+import { Image, Text, Box, Checkbox, ScrollView } from 'native-base'
 import { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
 import Logo from './assets/Logo.png'
 import { Botao } from './componentes/Botao';
 import { EntradaTexto } from './componentes/EntradaTexto';
@@ -9,11 +8,14 @@ import { secoes } from './utils/CadastroEntradaTexto';
 
 export default function Cadastro() {
   const [numSecao, setNumSecao] = useState(0);
-  
+  const [dados, setDados] = useState({} as any);
 
   function avancarSecao(){
     if(numSecao < secoes.length - 1){
       setNumSecao(numSecao+1)
+    }
+    else{
+      console.log(dados)
     }
   }
 
@@ -21,6 +23,10 @@ export default function Cadastro() {
     if(numSecao > 0){
       setNumSecao(numSecao - 1)
     }
+  }
+
+  function atualizarDados(id: string, valor: string){
+    setDados({...dados, [id]: valor})
   }
 
   return (
@@ -33,7 +39,16 @@ export default function Cadastro() {
       <Box>
         {
           secoes[numSecao]?.entradaTexto?.map(entrada => {
-            return <EntradaTexto label={entrada.label} placeholder={entrada.placeholder} key={entrada.id} />
+            return (
+              <EntradaTexto 
+                label={entrada.label} 
+                placeholder={entrada.placeholder} 
+                key={entrada.id} 
+                secureTextEntry={entrada.secureTextEntry}
+                value={dados[entrada.name]}
+                onChangeText={(text) => atualizarDados(entrada.name, text)}
+              />
+            )
           })
         }
       </Box>
