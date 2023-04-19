@@ -9,6 +9,7 @@ import { secoes } from './utils/CadastroEntradaTexto';
 export default function Cadastro() {
   const [numSecao, setNumSecao] = useState(0);
   const [dados, setDados] = useState({} as any);
+  const [planos, setPlanos] = useState([] as number[])
 
   function avancarSecao(){
     if(numSecao < secoes.length - 1){
@@ -16,6 +17,7 @@ export default function Cadastro() {
     }
     else{
       console.log(dados)
+      console.log(planos)
     }
   }
 
@@ -53,14 +55,27 @@ export default function Cadastro() {
         }
       </Box>
       <Box>
-        <Text color="blue.800" fontWeight="bold" fontSize="md" mt="2" mb={2}>
+        {numSecao == 2 && <Text color="blue.800" fontWeight="bold" fontSize="md" mt="2" mb={2}>
           Selecione o plano:
-        </Text>
+        </Text>}
         {
           secoes[numSecao].checkbox.map(checkbox => {
-            return <Checkbox key={checkbox.id} value={checkbox.value}>
+            return (
+              <Checkbox 
+                key={checkbox.id} 
+                value={checkbox.value}
+                onChange={() => {
+                  setPlanos((planosAnteriores) => {
+                    if(planosAnteriores.includes(checkbox.id)){
+                      return planosAnteriores.filter((id) => id !== checkbox.id)
+                    }
+                    return [...planosAnteriores, checkbox.id]
+                  })
+                }}
+                isChecked={planos.includes(checkbox.id)}
+              >
               {checkbox.value}
-            </Checkbox>
+            </Checkbox>)
           })
         }
       </Box>
