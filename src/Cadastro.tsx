@@ -6,8 +6,9 @@ import { EntradaTexto } from './componentes/EntradaTexto';
 import { Titulo } from './componentes/Titulo';
 import { secoes } from './utils/CadastroEntradaTexto';
 import { cadastrarPaciente } from './servicos/PacienteServico';
+import { NavigationProps } from './@types/navigation';
 
-export default function Cadastro({ navigation }: any) {
+export default function Cadastro({ navigation }: NavigationProps<'Cadastro'>) {
   const [numSecao, setNumSecao] = useState(0);
   const [dados, setDados] = useState({} as any);
   const [planos, setPlanos] = useState([] as number[])

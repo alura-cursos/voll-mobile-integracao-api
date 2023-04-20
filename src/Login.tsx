@@ -8,8 +8,9 @@ import { useEffect, useState } from 'react';
 import { fazerLogin } from './servicos/AutenticacaoServico';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwtDecode from 'jwt-decode';
+import { NavigationProps } from './@types/navigation';
 
-export default function Login({ navigation } : any) {
+export default function Login({ navigation } : NavigationProps<'Login'>) {
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [carregando, setCarregando] = useState(true)
@@ -26,13 +27,18 @@ export default function Login({ navigation } : any) {
     verificarLogin()
   },[])
 
+  interface TokenProps {
+    token: string;
+    id: string;
+  }
+
   async function login(){
     const resultado = await fazerLogin(email, senha)
     if(resultado){
       const { token } = resultado
       AsyncStorage.setItem('token', token)
 
-      const tokenDecodificado = jwtDecode(token) as any
+      const tokenDecodificado = jwtDecode(token) as TokenProps
       const pacienteId = tokenDecodificado.id
       AsyncStorage.setItem('pacienteId', pacienteId)
       navigation.replace('Tabs')
