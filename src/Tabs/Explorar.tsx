@@ -9,7 +9,8 @@ import { buscarEspecialistaPorEstado } from "../servicos/EspecialistaServico";
 interface Especialista {
   nome: string,
   imagem: string,
-  especialidade: string
+  especialidade: string,
+  id: string;
 }
 
 export default function Explorar(){
@@ -52,6 +53,7 @@ export default function Explorar(){
               especialidade={especialista.especialidade}
               foto={especialista.imagem}
               nome={especialista.nome}
+              // onPress={especialista.id}
             />
           </VStack>
         ))}
